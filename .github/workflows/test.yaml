@@ -2,9 +2,9 @@
 name: Test
 
 on:
-  push:
-    branches:
-      - master
+  # push:
+  #   branches:
+  #     - master
 
 jobs:
   test:
@@ -39,6 +39,9 @@ jobs:
           echo "${{ github.ref_type }}: ${{ github.ref }}"
           echo "commit: ${{ github.sha	}}"
 
+      - name: failed
+        run: exit 1
+
       # - name: Send custom JSON data to Slack workflow
       #   id: slack
       #   uses: slackapi/slack-github-action@v1.23.0
@@ -61,5 +64,14 @@ jobs:
       #     SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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 # channel:app
       #     SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
+      - name: if canceled
+        if: ${{ cancelled() }}
+        run: echo "Canceled!"
+
+      - name: The demo step has failed
+        if: ${{ failure() }}
+        run: echo "failure"
+
       - name: FINISHED 🎉
+        if: ${{ success() }}
         run: echo "FINISHED 🎉"
