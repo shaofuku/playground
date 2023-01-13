@@ -8,12 +8,15 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 30
 
     steps:
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.11.0
+        
+      - name: Dump secrets context
+        run: echo '${{ toJSON(secrets) }}'
 
       - name: Dump GitHub context
         id: github_context_step
@@ -39,8 +42,8 @@ jobs:
           echo "${{ github.ref_type }}: ${{ github.ref }}"
           echo "commit: ${{ github.sha	}}"
 
-      - name: failed
-        run: exit 1
+#       - name: failed
+#         run: exit 1
 
       - name: if canceled
         if: ${{ cancelled() }}
