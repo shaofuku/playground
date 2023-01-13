@@ -14,7 +14,12 @@ jobs:
     steps:
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.11.0
-        
+
+      - name: Dump secrets context
+        run: echo $REPO_SECRET
+        env:
+          REPO_SECRET: ${{ secrets.REPO_SECRET_1 }}
+
       - name: Dump secrets context
         run: echo '${{ toJSON(secrets) }}'
 
