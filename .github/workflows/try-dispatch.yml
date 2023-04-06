@@ -1,0 +1,22 @@
+name: test for workflow_dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "tag version"
+        required: true
+        default: "1.0.0+1"
+      is_pre_release:
+        description: "pre-release or release, if true, is pre-release"
+        required: true
+        type: boolean
+        default: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo ${{ inputs.version }}
+          echo ${{ inputs.is_pre_release }}
