@@ -7,7 +7,7 @@ jobs:
     example_matrix:
         strategy:
           matrix:
-            os: [ubuntu-22.04, macos-12]
+            os: []
             includes:
               # qa-android
               - os: ubuntu-22.04
