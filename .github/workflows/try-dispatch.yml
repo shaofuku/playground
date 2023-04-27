@@ -20,3 +20,12 @@ jobs:
       - run: |
           echo ${{ inputs.version }}
           echo ${{ inputs.is_pre_release }}
+
+      - name: View context attributes
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { FIRST_NAME, LAST_NAME } = process.env
+            console.log(`Hello ${FIRST_NAME} ${LAST_NAME}`)
+
+            console.log(context)
