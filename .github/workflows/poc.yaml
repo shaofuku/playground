@@ -7,7 +7,6 @@ jobs:
     example_matrix:
         strategy:
           matrix:
-            os: []
             includes:
               # qa-android
               - os: ubuntu-22.04
@@ -29,7 +28,7 @@ jobs:
                 app-env: production
                 app-env-short: prod
                 app-platform: ios
-        runs-on: ${{ matrix.os }}
+        runs-on: ${{ matrix.includes.os }}
         steps:
           - name: dump matrix
             id: dump_matrix
