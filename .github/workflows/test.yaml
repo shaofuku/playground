@@ -34,15 +34,10 @@ jobs:
       - name: Dump runner context
         run: echo '${{ toJSON(runner) }}'
 
-      - name: Print git information
-        run: |
-          echo "remote: $(git remote get-url origin)"
-          echo "branch: $(git rev-parse --abbrev-ref HEAD)"
-          echo "commit: $(git rev-parse --short HEAD)"
-
       - name: print infos
         run: |
-          echo "${{ github.ref_type }}: ${{ github.ref }}"
+          echo "repo: ${{ github.repository }}"
+          echo "${{ github.ref_type }}: ${{ github.head_ref || github.ref_name }}"
           echo "commit: ${{ github.sha	}}"
 
 #       - name: failed
