@@ -62,12 +62,20 @@ jobs:
           echo "release_note-link=$RELEASE_NOTE_LINK" >> $GITHUB_OUTPUT
           echo "release-message=:seniorcare: SeniorCare $APP_VERSION+$APP_BUILD_NUMBER <$RELEASE_NOTE_LINK|Release Note>" >> $GITHUB_OUTPUT
 
+      - name: condition 1
+        if: runner.os == 'Windows'
+        run: echo "The operating system on the runner is $env:RUNNER_OS."
+
+      - name: condition 2
+        if: runner.os != 'Windows'
+        run: echo "The operating system on the runner is not Windows, it's $RUNNER_OS."
+
       - name: FINISHED 🎉
         if: ${{ success() }}
         run: |-
           echo "## Release 🎉" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
-          echo "- Repo: ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Repo: ${{ github.repositoryUrl }}" >> $GITHUB_STEP_SUMMARY
           echo "- ${{ github.ref_type }}: ${{ github.head_ref || github.ref_name }}" >> $GITHUB_STEP_SUMMARY
           echo "- commit: ${{ github.sha	}}" >> $GITHUB_STEP_SUMMARY
           echo "- App Version: ${{ steps.generate-release-message.outputs.app-version }}" >> $GITHUB_STEP_SUMMARY

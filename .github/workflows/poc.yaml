@@ -4,7 +4,32 @@ on:
     workflow_dispatch:
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Hello World!"
+    example_matrix:
+        strategy:
+          matrix:
+            includes:
+              # qa-android
+              - os: ubuntu-22.04
+                app-env: qa
+                app-env-short: qa
+                app-platform: android
+              # prod-android
+              - os: ubuntu-22.04
+                app-env: production
+                app-env-short: prod
+                app-platform: android
+              # qa-ios
+              - os: macos-12
+                app-env: qa
+                app-env-short: qa
+                app-platform: ios
+              # prod-ios
+              - os: macos-12
+                app-env: production
+                app-env-short: prod
+                app-platform: ios
+        runs-on: ${{ matrix.os }}
+        steps:
+          - name: dump matrix
+            id: dump_matrix
+            run: echo '${{ toJSON(matrix) }}' >> $GITHUB_STEP_SUMMARY
