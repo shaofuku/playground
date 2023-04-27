@@ -34,11 +34,11 @@ jobs:
       - name: Dump runner context
         run: echo '${{ toJSON(runner) }}'
 
-      - name: print infos
-        run: |
-          echo "repo: ${{ github.repository }}"
-          echo "${{ github.ref_type }}: ${{ github.head_ref || github.ref_name }}"
-          echo "commit: ${{ github.sha	}}"
+      # - name: print infos
+      #   run: |
+      #     echo "repo: ${{ github.repository }}"
+      #     echo "${{ github.ref_type }}: ${{ github.head_ref || github.ref_name }}"
+      #     echo "commit: ${{ github.sha	}}"
 
 #       - name: failed
 #         run: exit 1
@@ -51,15 +51,25 @@ jobs:
         if: ${{ failure() }}
         run: echo "failure"
 
-      - name: Adding markdown
+      - name: Generate release message for Slack
+        id: generate-release-message
         run: |
-          echo '## Hello world! 🚀' >> $GITHUB_STEP_SUMMARY
-          echo "This is the lead in sentence for the list" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
-          echo "- Lets add a bullet point" >> $GITHUB_STEP_SUMMARY
-          echo "- Lets add a second bullet point" >> $GITHUB_STEP_SUMMARY
-          echo "- How about a third one?" >> $GITHUB_STEP_SUMMARY
+          export APP_VERSION=1.10.0
+          export APP_BUILD_NUMBER=97
+          export RELEASE_NOTE_LINK="https://github.com/tracmo/tracmo_issues/issues?q=release+seniorcare+$APP_VERSION"
+          echo "app-version=$APP_VERSION" >> $GITHUB_OUTPUT
+          echo "app-build-number=$APP_BUILD_NUMBER" >> $GITHUB_OUTPUT
+          echo "release_note-link=$RELEASE_NOTE_LINK" >> $GITHUB_OUTPUT
+          echo "release-message=:seniorcare: SeniorCare $APP_VERSION+$APP_BUILD_NUMBER <$RELEASE_NOTE_LINK|Release Note>" >> $GITHUB_OUTPUT
 
       - name: FINISHED 🎉
         if: ${{ success() }}
-        run: echo "## FINISHED 🎉" >> $GITHUB_STEP_SUMMARY
+        run: |-
+          echo "## Release 🎉" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+          echo "- Repo: ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ${{ github.ref_type }}: ${{ github.head_ref || github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- commit: ${{ github.sha	}}" >> $GITHUB_STEP_SUMMARY
+          echo "- App Version: ${{ steps.generate-release-message.outputs.app-version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- App Build: ${{ steps.generate-release-message.outputs.app-build-number }}" >> $GITHUB_STEP_SUMMARY
+          echo "- [Release Note](${{ steps.generate-release-message.outputs.release_note-link }})" >> $GITHUB_STEP_SUMMARY
