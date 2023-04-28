@@ -30,11 +30,21 @@ on:
         type: boolean
 
 jobs:
-  pre-build:
+  setup:
     runs-on: ubuntu-latest
     steps:
-      - name: test
-        run: echo "test"
+      - name: Print inputs
+        run: |
+          echo "
+          # Deployment
+
+          ## Inputs
+
+          ```json
+          ${{ fromJson(inputs) }}
+          ```
+          " >> $GITHUB_STEP_SUMMARY
+
       - name: sync locale
         if: inputs.syncLocale
         run: echo "handle sync locale"
@@ -42,7 +52,7 @@ jobs:
   android-qa:
     runs-on: ubuntu-latest
     if: inputs.android && inputs.qa
-    needs: pre-build
+    needs: setup
     steps:
       - name: android-qa
         run: echo "android-qa"
@@ -57,7 +67,7 @@ jobs:
 
   ios-qa:
     runs-on: ubuntu-latest
-    needs: pre-build
+    needs: setup
     if: inputs.ios && inputs.qa
     steps:
       - name: ios-qa
