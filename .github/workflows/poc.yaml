@@ -6,21 +6,17 @@ on:
       android:
         description: 'android'
         required: true
-        default: true
         type: boolean
       ios:
         description: 'ios'
         required: true
-        default: true
         type: boolean
       qa:
         description: 'qa'
-        required: true
         default: true
         type: boolean
       prod:
         description: 'prod'
-        required: true
         default: true
         type: boolean
 
