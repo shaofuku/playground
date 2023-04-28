@@ -28,15 +28,19 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - name: Checks platform
-        run: echo "::error title=Requires at least one platform::please choose android/ios" && exit 1
+      - name: Validate platform
         if: ${{ !inputs.android && !inputs.ios }}
+        run: |
+          echo "::error title=Requires at least one platform::please choose android/ios"
+          exit 1
 
-      - name: Checks environment
-        run: echo "::error title=Requires at least one environment::please choose qa/prod" && exit 1
+      - name: Validate environment
         if: ${{ !inputs.qa && !inputs.prod }}
+        run: |
+          echo "::error title=Requires at least one environment::please choose qa/prod"
+          exit 1
 
-      - name: Prints 'inputs'
+      - name: Print 'inputs'
         env:
           INPUTS_JSON: ${{ toJSON(inputs) }}
         run: |
