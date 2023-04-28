@@ -28,12 +28,12 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - name: Requires at least one platform
-        run: echo "::error title=Requires at least one platform::please choose android/ios"
+      - name: Checks platform
+        run: echo "::error title=Requires at least one platform::please choose android/ios" && exit 1
         if: ${{ !inputs.android && !inputs.ios }}
 
-      - name: Requires at least one environment
-        run: echo "::error title=Requires at least one environment::please choose qa/prod"
+      - name: Checks environment
+        run: echo "::error title=Requires at least one environment::please choose qa/prod" && exit 1
         if: ${{ !inputs.qa && !inputs.prod }}
 
       - name: Prints 'inputs'
