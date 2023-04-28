@@ -40,7 +40,7 @@ jobs:
           echo "## Inputs" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "```json" >> $GITHUB_STEP_SUMMARY
-          echo "&INPUTS" >> $GITHUB_STEP_SUMMARY
+          echo "${{ fromJson(inputs) }}" >> $GITHUB_STEP_SUMMARY
           echo "```" >> $GITHUB_STEP_SUMMARY
 
       - name: sync locale
