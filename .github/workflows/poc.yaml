@@ -43,9 +43,9 @@ jobs:
           echo "```json" >> $GITHUB_STEP_SUMMARY
           echo $INPUTS >> $GITHUB_STEP_SUMMARY
           echo "```" >> $GITHUB_STEP_SUMMARY
-          echo "```json"
-          echo from
-
+          echo "```json" >> $GITHUB_STEP_SUMMARY
+          echo ${{ fromJSON(inputs) }} >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
 
       - name: Print inputs
         run: |
@@ -60,7 +60,8 @@ jobs:
 
           ```json
           ${{ inputs }}
-          ```" >> $GITHUB_STEP_SUMMARY
+          ```
+          " >> $GITHUB_STEP_SUMMARY
 
       - name: sync locale
         if: inputs.syncLocale
