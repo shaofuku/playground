@@ -35,14 +35,25 @@ jobs:
     steps:
       - name: Print inputs
         run: |
-          INPUTS=${{ fromJson(inputs) }}
           echo "# Deployment" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Inputs" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "```json" >> $GITHUB_STEP_SUMMARY
-          echo "$INPUTS" >> $GITHUB_STEP_SUMMARY
+          echo "${{ toJSON(inputs) }}" >> $GITHUB_STEP_SUMMARY
           echo "```" >> $GITHUB_STEP_SUMMARY
+
+      - name: Print inputs
+        run: |
+          echo "
+          # Deployment 2
+
+          ## Inputs 2
+
+          ```json
+          2222
+          ${{ toJSON(inputs) }}
+          ```" >> $GITHUB_STEP_SUMMARY
 
       - name: sync locale
         if: inputs.syncLocale
