@@ -50,7 +50,7 @@ jobs:
   android-prod:
     runs-on: ubuntu-latest
     if: inputs.android && inputs.prod
-    needs: pre-build
+    needs: android-qa
     steps:
       - name: android-prod
         run: echo "android-prod"
@@ -65,7 +65,7 @@ jobs:
 
   ios-prod:
     runs-on: ubuntu-latest
-    needs: pre-build
+    needs: ios-qa
     if: inputs.ios && inputs.prod
     steps:
       - name: ios-prod
