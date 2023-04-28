@@ -2,35 +2,45 @@ name: POC
 
 on:
   workflow_dispatch:
-
-targets: &targets
-  # qa-android
-  - os: ubuntu-22.04
-    app-env: qa
-    app-env-short: qa
-    app-platform: android
-  # prod-android
-  - os: ubuntu-22.04
-    app-env: production
-    app-env-short: prod
-    app-platform: android
-  # qa-ios
-  - os: macos-12
-    app-env: qa
-    app-env-short: qa
-    app-platform: ios
-  # prod-ios
-  - os: macos-12
-    app-env: production
-    app-env-short: prod
-    app-platform: ios
+    inputs:
+      targets:
+        description: 'targets to build and deploy'
+        required: true
+        default: 'android-qa'
+        type: choice
+        options:
+          - android-qa
+          - android-prod
+          - ios-qa
+          - ios-prod
 
 jobs:
   example_matrix:
     strategy:
       matrix:
-        includes: *targets
+        includes:
+          # qa-android
+          - os: ubuntu-latest
+            app-env: qa
+            app-env-short: qa
+            app-platform: android
+          # prod-android
+          - os: ubuntu-latest
+            app-env: production
+            app-env-short: prod
+            app-platform: android
+          # qa-ios
+          - os: macos-latest
+            app-env: qa
+            app-env-short: qa
+            app-platform: ios
+          # prod-ios
+          - os: macos-latest
+            app-env: production
+            app-env-short: prod
+            app-platform: ios
     runs-on: ${{ matrix.includes.os }}
+    if: ${{ contains(inputs.targets, matrix.includes.app-platform) }}
     steps:
       - name: dump matrix
         id: dump_matrix
