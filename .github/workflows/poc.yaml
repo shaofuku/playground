@@ -35,15 +35,13 @@ jobs:
     steps:
       - name: Print inputs
         run: |
-          echo "
-          # Deployment
-
-          ## Inputs
-
-          ```json
-          ${{ fromJson(inputs) }}
-          ```
-          " >> $GITHUB_STEP_SUMMARY
+          echo "# Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Inputs" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "```json" >> $GITHUB_STEP_SUMMARY
+          echo "&INPUTS" >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
 
       - name: sync locale
         if: inputs.syncLocale
