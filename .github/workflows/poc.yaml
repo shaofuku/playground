@@ -3,45 +3,97 @@ name: POC
 on:
   workflow_dispatch:
     inputs:
-      targets:
-        description: 'targets to build and deploy'
+      syncLocale:
+        description: 'syncLocale'
         required: true
-        default: 'android-qa'
-        type: choice
-        options:
-          - android-qa
-          - android-prod
-          - ios-qa
-          - ios-prod
+        default: true
+        type: boolean
+      android:
+        description: 'android'
+        required: true
+        default: true
+        type: boolean
+      ios:
+        description: 'ios'
+        required: true
+        default: true
+        type: boolean
+      qa:
+        description: 'qa'
+        required: true
+        default: true
+        type: boolean
+      prod:
+        description: 'prod'
+        required: true
+        default: true
+        type: boolean
 
 jobs:
-  example_matrix:
-    strategy:
-      matrix:
-        includes:
-          # qa-android
-          - os: ubuntu-latest
-            app-env: qa
-            app-env-short: qa
-            app-platform: android
-          # prod-android
-          - os: ubuntu-latest
-            app-env: production
-            app-env-short: prod
-            app-platform: android
-          # qa-ios
-          - os: macos-latest
-            app-env: qa
-            app-env-short: qa
-            app-platform: ios
-          # prod-ios
-          - os: macos-latest
-            app-env: production
-            app-env-short: prod
-            app-platform: ios
-    runs-on: ${{ matrix.includes.os }}
-    if: ${{ contains(inputs.targets, matrix.includes.app-platform) }}
+  pre-build:
+    runs-on: ubuntu-latest
     steps:
-      - name: dump matrix
-        id: dump_matrix
-        run: echo '${{ toJSON(matrix) }}' >> $GITHUB_STEP_SUMMARY
+      - name: test
+        run: echo "test"
+      - name: sync locale
+        if: inputs.syncLocale
+        run: echo "handle sync locale"
+
+  android-qa:
+    runs-on: ubuntu-latest
+    if: inputs.android && inputs.qa
+    steps:
+      - name: android-qa
+        run: echo "android-qa"
+
+  android-prod:
+    runs-on: ubuntu-latest
+    if: inputs.android && inputs.prod
+    steps:
+      - name: android-prod
+        run: echo "android-prod"
+
+  ios-qa:
+    runs-on: ubuntu-latest
+    if: inputs.ios && inputs.qa
+    steps:
+      - name: ios-qa
+        run: echo "ios-qa"
+
+  ios-prod:
+    runs-on: ubuntu-latest
+    if: inputs.ios && inputs.prod
+    steps:
+      - name: ios-prod
+        run: echo "ios-prod"
+
+  # example_matrix:
+  #   strategy:
+  #     matrix:
+  #       includes:
+  #         # qa-android
+  #         - os: ubuntu-latest
+  #           app-env: qa
+  #           app-env-short: qa
+  #           app-platform: android
+  #         # prod-android
+  #         - os: ubuntu-latest
+  #           app-env: production
+  #           app-env-short: prod
+  #           app-platform: android
+  #         # qa-ios
+  #         - os: macos-latest
+  #           app-env: qa
+  #           app-env-short: qa
+  #           app-platform: ios
+  #         # prod-ios
+  #         - os: macos-latest
+  #           app-env: production
+  #           app-env-short: prod
+  #           app-platform: ios
+  #   runs-on: ${{ matrix.includes.os }}
+  #   if: inputs.ios && inputs.prod
+  #   steps:
+  #     - name: dump matrix on 'qa'
+  #       id: dump_matrix
+  #       run: echo '${{ toJSON(matrix) }}' >> $GITHUB_STEP_SUMMARY
