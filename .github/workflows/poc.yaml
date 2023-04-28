@@ -35,7 +35,7 @@ jobs:
     steps:
       - name: Print inputs
         run: |
-          export INPUTS=${{ toJSON(inputs) }}
+          export INPUTS="${{ toJSON(inputs) }}"
           echo "# Deployment" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Inputs" >> $GITHUB_STEP_SUMMARY
@@ -46,7 +46,7 @@ jobs:
 
       - name: Print inputs
         run: |
-          export INPUTS=${{ toJSON(inputs) }}
+          export INPUTS="${{ toJSON(inputs) }}"
           echo "
           # Deployment 2
 
