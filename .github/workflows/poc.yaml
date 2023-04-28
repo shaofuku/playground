@@ -28,7 +28,15 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - name: Print inputs
+      - name: Requires at least one platform
+        run: exit 1
+        if: ${{ !inputs.android && !inputs.ios }}
+
+      - name: Requires at least one environment
+        run: exit 1
+        if: ${{ !inputs.qa && !inputs.prod }}
+
+      - name: Prints 'inputs'
         env:
           INPUTS_JSON: ${{ toJSON(inputs) }}
         run: |
