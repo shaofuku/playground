@@ -29,13 +29,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print inputs
+        env:
+          INPUTS_JSON: ${{ toJSON(inputs) }}
         run: |
           echo "# Deployment" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Inputs" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "```json" >> $GITHUB_STEP_SUMMARY
-          echo "${{ toJSON(inputs) }}" >> $GITHUB_STEP_SUMMARY
+          echo $INPUTS_JSON >> $GITHUB_STEP_SUMMARY
           echo "```" >> $GITHUB_STEP_SUMMARY
 
   android-qa:
