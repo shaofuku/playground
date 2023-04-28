@@ -3,11 +3,6 @@ name: POC
 on:
   workflow_dispatch:
     inputs:
-      syncLocale:
-        description: 'syncLocale'
-        required: true
-        default: true
-        type: boolean
       android:
         description: 'android'
         required: true
@@ -42,10 +37,9 @@ jobs:
           echo "```json" >> $GITHUB_STEP_SUMMARY
           echo "${{ fromJSON(inputs) }}" >> $GITHUB_STEP_SUMMARY
           echo "```" >> $GITHUB_STEP_SUMMARY
-
-      - name: sync locale
-        if: inputs.syncLocale
-        run: echo "handle sync locale"
+          echo "```json" >> $GITHUB_STEP_SUMMARY
+          echo "${{ inputs }}" >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
 
   android-qa:
     runs-on: ubuntu-latest
@@ -78,34 +72,3 @@ jobs:
     steps:
       - name: ios-prod
         run: echo "ios-prod"
-
-  # example_matrix:
-  #   strategy:
-  #     matrix:
-  #       includes:
-  #         # qa-android
-  #         - os: ubuntu-latest
-  #           app-env: qa
-  #           app-env-short: qa
-  #           app-platform: android
-  #         # prod-android
-  #         - os: ubuntu-latest
-  #           app-env: production
-  #           app-env-short: prod
-  #           app-platform: android
-  #         # qa-ios
-  #         - os: macos-latest
-  #           app-env: qa
-  #           app-env-short: qa
-  #           app-platform: ios
-  #         # prod-ios
-  #         - os: macos-latest
-  #           app-env: production
-  #           app-env-short: prod
-  #           app-platform: ios
-  #   runs-on: ${{ matrix.includes.os }}
-  #   if: inputs.ios && inputs.prod
-  #   steps:
-  #     - name: dump matrix on 'qa'
-  #       id: dump_matrix
-  #       run: echo '${{ toJSON(matrix) }}' >> $GITHUB_STEP_SUMMARY
