@@ -54,11 +54,11 @@ jobs:
 
       - name: get var
         env:
-          QA: ${{ inputs.qa && 'QA' }}
-          PROD: ${{ inputs.qa && 'PROD' }}
+          QA: ${{ inputs.qa && 'QA ' || '' }}
+          PROD: ${{ inputs.prod && 'PROD ' || '' }}
         run: |
-          echo "QA: $QA"
-          echo "PROD: $PROD"
+          echo "QA: $QA==="
+          echo "PROD: $PROD==="
 
   android-qa:
     runs-on: ubuntu-latest
